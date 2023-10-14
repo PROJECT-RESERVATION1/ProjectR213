@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import http from "http";
 import UserRoutes from "./Routes/UserRoutes";
-import HostelRouter from "./Routes/HostelsRoutes";
 
 const PORT = 3000;
 
@@ -23,7 +22,6 @@ mongoose
     });
 
 app.use("/users", UserRoutes);
-app.use("/hostel", HostelRouter);
 
 app.listen(PORT, () => {
     console.log(`app live on port ${PORT}`);
