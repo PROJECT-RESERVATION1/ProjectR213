@@ -1,6 +1,7 @@
 import express from "express"
 import cors from "cors";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 import http from "http";
 import UserRoutes from "./Routes/UserRoutes";
 
@@ -8,7 +9,7 @@ const PORT = 3000;
 
 const app = express();
 http.createServer(app);
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(cors({ origin: "*" }));
 
 mongoose
