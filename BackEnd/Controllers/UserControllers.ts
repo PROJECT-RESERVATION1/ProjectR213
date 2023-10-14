@@ -1,6 +1,8 @@
 import { Response, Request } from "express";
+import { IncomingHttpHeaders} from "http"
 import UserModel from "../Models/UserModel";
 import JWT from "jsonwebtoken";
+import axios from "axios";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -79,3 +81,63 @@ export const login = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+
+export const editPassword = async (req: Request, res: Response) => {
+    
+    const { body, headers:hd } = req;
+    const headers:headersType=hd
+    const { token } = headers;
+    const { oldPassword, newPassword } = body;
+    
+
+
+
+   
+    
+    try {
+        const clearToken:any = JWT.verify(token!, "tokenencKey");
+        const { id } = clearToken;
+    const filter = { _id: id };
+
+    
+        const activeUser = await UserModel.findOne({ _id: id });
+        if (!activeUser) {
+            return res.status(404).json("No user found");
+        }
+
+        bcrypt.compare(oldPassword, activeUser.password, async function(err: any, passwordMatch: any) {
+            if (err) {
+                console.error("Error comparing passwords:", err);
+                return res.status(500).json({ message: "Internal Server Error" });
+            }
+
+            if (!passwordMatch) {
+                return res.json("Old password is incorrect");
+            }
+
+            bcrypt.hash(newPassword, saltRounds, async function(err: any, hash: any) {
+                if (err) {
+                    console.error("Error hashing the new password:", err);
+                    return res.status(500).json({ message: "Internal Server Error" });
+                }
+
+                const update = await UserModel.findOneAndUpdate(filter, { password: hash });
+
+                if (!update) {
+                    return res.json("Password not updated");
+                }
+
+
+            });
+        });
+        return res.status(200).json("Password updated");
+    } catch (error) {
+        console.error("Error during password edit:", error);
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+export type headersType =  IncomingHttpHeaders &{
+    token?:string
+}
