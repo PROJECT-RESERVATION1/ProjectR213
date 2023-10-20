@@ -38,7 +38,15 @@ const UserModel = new mongoose.Schema ({
     isAdmin: {
         type: Boolean, 
         default: false
-    }
+    },
+    telephone: {
+        type: String,
+        required: true,
+    },
+    cards: {
+        type: Array,
+        required: true,
+    } 
 });
 
 export default new (mongoose.model as any)("users", UserModel )
