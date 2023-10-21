@@ -1,4 +1,4 @@
-import '../ReservationPage/ReservationForm.css';
+import './ReservationForm.css';
 import React, { useState } from 'react';
 
 const ReservationForm: React.FC = () => {
@@ -99,10 +99,7 @@ const ReservationForm: React.FC = () => {
         </div>
         <button type="submit">Book Now</button>
       </form>
-      <footer className="footer">
-        <p>&copy; 2023 Booking App. All rights reserved.</p>
-      </footer>
-    </div>
+      </div>
   );
 };
 
