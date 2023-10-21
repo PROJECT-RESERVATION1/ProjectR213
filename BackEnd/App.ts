@@ -5,6 +5,9 @@ import bodyParser from "body-parser";
 import http from "http";
 import UserRoutes from "./Routes/UserRoutes";
 import HostelRouter from "./Routes/HostelsRoutes";
+import ReservationRoute from "./Routes/ReservationRoute";
+import OfferRoutes from "./Routes/OfferRoutes";
+import CommentRoutes from "./Routes/CommentRoutes";
 
 const PORT = 3000;
 
@@ -24,6 +27,9 @@ mongoose
 
 app.use("/users", UserRoutes);
 app.use("/hostel", HostelRouter);
+app.use("/reservation", ReservationRoute)
+app.use("/offers",OfferRoutes)
+app.use("/comments", CommentRoutes)
 
 app.listen(PORT, () => {
     console.log(`app live on port ${PORT}`);
