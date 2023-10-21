@@ -1,31 +1,19 @@
-import "./App.css";
-import { Suspense, lazy, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import { setTheme, useWindowDimensions } from "./MiddleWear/ClientFunctions";
-import { Contexts } from "./Contexts/Contexts";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Pages/Home/home';
+import Hotel from './Pages/hotel/Hotel';
+import List from './Pages/list/list';
 
 function App() {
-    const { initialLanguage, initialDkMode, setAlertHandler, darkMode } = Contexts();
-
-    const [navOpDisplay, setNavOpDisplay] = useState(false);
-
-    const dimentions = useWindowDimensions();
-
-    setTheme(JSON.parse(darkMode));
-    const style: React.CSSProperties = {
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    };
-
-    return (
-        <div className="AppContainer" style={style}>
-            {" "}
-            <h1>New App</h1>
-        </div>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/hotels" element={<List />} />
+        <Route path="/hotels/:id" element={<Hotel />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
