@@ -46,3 +46,33 @@ export const editOffer = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+
+export const deleteOffer = async (req: Request, res: Response) => {
+  const { params, headers: hd } = req;
+  const headers: headersType = hd;
+  const { id } = params;
+  const { owner } = headers; 
+
+  const filter = { _id: id };
+
+  try {
+      const offerToDelete = await OffersModel.findOne(filter);     
+
+      if (!offerToDelete) {
+          return res.json("No offer found");
+      }
+      if (offerToDelete.owner != owner) {
+          return res.json("This offer was not made by this user, can't delete it");
+      }
+
+      const deleteOffer = await OffersModel.findOneAndDelete(filter); 
+      if (!deleteOffer) {
+          return res.json("offer not deleted");
+      }
+
+      return res.status(200).json("offer deleted");
+  } catch (error) {
+      console.log("🚀 ~ file: ~ error:", error);
+  }
+}
